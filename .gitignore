@@ -1,0 +1,8 @@
+# Compilação do Java
+*.class
+
+# Logs
+*.log
+
+# Configurações do IDE
+/.vscode/
