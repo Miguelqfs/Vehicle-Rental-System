@@ -1,3 +1,7 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -44,6 +48,14 @@ public class Main {
         scanner.close();
     }
 
+    // Método para obter a conexão com o banco de dados PostgreSQL
+    private static Connection getConnection() throws SQLException {
+        String url = "jdbc:postgresql://localhost:5432/sistema_veiculos";
+        String user = "seu_usuario";
+        String password = "sua_senha";
+        return DriverManager.getConnection(url, user, password);
+    }
+
     private static void adicionarVeiculo(Scanner scanner) {
         System.out.println("\nEscolha o tipo de veículo para adicionar:");
         System.out.println("[1] Carro");
@@ -51,7 +63,7 @@ public class Main {
         System.out.println("[3] Coletivo");
         System.out.print("Escolha uma opção: ");
         int tipo = scanner.nextInt();
-        scanner.nextLine(); 
+        scanner.nextLine();
 
         System.out.print("ID: ");
         int id = scanner.nextInt();
@@ -70,32 +82,48 @@ public class Main {
 
         System.out.print("Está alugado? (true/false): ");
         boolean alugado = scanner.nextBoolean();
-        scanner.nextLine(); 
+        scanner.nextLine();
 
+        String tipoVeiculo = "";
         switch (tipo) {
-            case 1: // Carro
+            case 1:
                 System.out.println("Tipos de carro: SUV, Sedan, Hatch");
                 System.out.print("Escolha o tipo: ");
-                String tipoCarro = scanner.nextLine();
+                tipoVeiculo = scanner.nextLine();
                 carros.add(new Carro(id, placa, capacidade, alugado, ano));
-                System.out.println("Carro adicionado com sucesso!");
                 break;
-            case 2: // Moto
+            case 2:
                 System.out.println("Tipos de moto: Street, Scooter");
                 System.out.print("Escolha o tipo: ");
-                String tipoMoto = scanner.nextLine();
+                tipoVeiculo = scanner.nextLine();
                 motos.add(new Moto(id, placa, capacidade, alugado, ano));
-                System.out.println("Moto adicionada com sucesso!");
                 break;
-            case 3: // Coletivo
+            case 3:
                 System.out.println("Tipos de coletivo: Van, Mini Van, Onibus");
                 System.out.print("Escolha o tipo: ");
-                String tipoColetivo = scanner.nextLine();
+                tipoVeiculo = scanner.nextLine();
                 coletivos.add(new Coletivo(id, placa, capacidade, alugado, ano));
-                System.out.println("Coletivo adicionado com sucesso!");
                 break;
             default:
                 System.out.println("Tipo inválido.");
+                return;
+        }
+
+        // Salvar no banco de dados
+        String sql = "INSERT INTO veiculos (tipo, placa, capacidade, alugado, ano) VALUES (?, ?, ?, ?, ?)";
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, tipoVeiculo);
+            stmt.setString(2, placa);
+            stmt.setInt(3, capacidade);
+            stmt.setBoolean(4, alugado);
+            stmt.setInt(5, ano);
+
+            stmt.executeUpdate();
+            System.out.println("Veículo salvo no banco de dados com sucesso!");
+        } catch (SQLException e) {
+            System.err.println("Erro ao salvar veículo: " + e.getMessage());
         }
     }
 
