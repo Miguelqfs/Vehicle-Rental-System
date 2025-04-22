@@ -1,3 +1,5 @@
+package src.models;
+
 public class Moto extends Veiculo {
     private boolean bau;
 

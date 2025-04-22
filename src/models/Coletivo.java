@@ -1,3 +1,5 @@
+package src.models;
+
 public class Coletivo extends Veiculo {
     private int portas;
     private boolean banheiro;
