@@ -1,30 +1,23 @@
-package src.models;
+package models;
+
 // Classe abstrata Veiculo
 public abstract class Veiculo {
-    private int id;
     private String placa;
     private int capacidade;
     private boolean alugado;
     private int ano;
+    private String tipo;
 
     // Construtor
-    public Veiculo(int id, String placa, int capacidade, boolean alugado, int ano) {
-        this.id = id;
+    public Veiculo(String placa, int capacidade, boolean alugado, int ano, String tipo) {
         this.placa = placa;
         this.capacidade = capacidade;
         this.alugado = alugado;
         this.ano = ano;
+        this.tipo = tipo;
     }
 
     // Getters e Setters
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getPlaca() {
         return placa;
     }
@@ -55,6 +48,14 @@ public abstract class Veiculo {
 
     public void setAno(int ano) {
         this.ano = ano;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
     // Método abstrato para exibir informações do veículo

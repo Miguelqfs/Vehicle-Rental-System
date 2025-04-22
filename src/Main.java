@@ -1,78 +1,57 @@
-package src;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import src.models.Carro;
-import src.models.Coletivo;
-import src.models.Moto;
+import models.Carro;
+import models.Coletivo;
+import models.Moto;
+import models.Database;
 
 public class Main {
-    private static final ArrayList<Carro> carros = new ArrayList<>();
-    private static final ArrayList<Moto> motos = new ArrayList<>();
-    private static final ArrayList<Coletivo> coletivos = new ArrayList<>();
-
     public static void main(String[] args) {
         try (Scanner scanner = new Scanner(System.in)) {
             int opcao = 0;
+            
             do {
+                Database.testarConexao();
                 exibirMenu();
+                
                 try {
                     System.out.print("Escolha uma opção: ");
                     opcao = scanner.nextInt();
-                    scanner.nextLine();
+                    scanner.nextLine();  // Limpar buffer
+                    
                     switch (opcao) {
                         case 1 -> adicionarVeiculo(scanner);
                         case 2 -> excluirVeiculo(scanner);
-                        case 3 -> exibirStatus();
+                        case 3 -> exibirStatusVeiculos(scanner);
                         case 4 -> System.out.println("Saindo...");
-                        default -> System.out.println("Opção inválida. Tente novamente.");
+                        default -> System.out.println("Opção inválida!");
                     }
+                    
                 } catch (InputMismatchException e) {
-                    System.err.println("Entrada inválida. Por favor, insira um número.");
-                    scanner.nextLine();
+                    System.err.println("Erro: Entrada inválida!");
+                    scanner.nextLine();  // Limpar entrada incorreta
                 }
+                
             } while (opcao != 4);
+            
         } catch (Exception e) {
-            System.err.println("Ocorreu um erro inesperado: " + e.getMessage());
+            System.err.println("Erro fatal: " + e.getMessage());
         }
     }
 
     private static void exibirMenu() {
         System.out.println("\n=======================");
-        System.out.println("  SISTEMA DE VEÍCULOS  ");
+        System.out.println("  SISTEMA DE ALUGUEIS  ");
         System.out.println("=======================");
-        System.out.println("\nMENU:");
-        System.out.println("[1] ADICIONAR");
-        System.out.println("[2] EXCLUIR");
-        System.out.println("[3] STATUS");
-        System.out.println("[4] SAIR");
-    }
-
-    // Método para obter a conexão com o banco de dados PostgreSQL
-    private static Connection getConnection() throws SQLException {
-        String url = "jdbc:postgresql://localhost:5432/sistema_veiculos";
-        String user = "seu_usuario";
-        String password = "sua_senha";
-        return DriverManager.getConnection(url, user, password);
+        System.out.println("[1] Adicionar veículo");
+        System.out.println("[2] Excluir veículo");
+        System.out.println("[3] Exibir status");
+        System.out.println("[4] Sair");
     }
 
     private static void adicionarVeiculo(Scanner scanner) {
-        System.out.println("\nEscolha o tipo de veículo para adicionar:");
-        System.out.println("[1] Carro");
-        System.out.println("[2] Moto");
-        System.out.println("[3] Coletivo");
-        System.out.print("Escolha uma opção: ");
-        int tipo = scanner.nextInt();
-        scanner.nextLine();
-
-        System.out.print("ID: ");
-        int id = scanner.nextInt();
-        scanner.nextLine();
-
+        int tipo = escolherTipoVeiculo(scanner, "adicionar");
+        
         System.out.print("Placa: ");
         String placa = scanner.nextLine();
 
@@ -88,101 +67,97 @@ public class Main {
         boolean alugado = scanner.nextBoolean();
         scanner.nextLine();
 
-        String modelo;
-        switch (tipo) {
-            case 1 -> {
-                System.out.println("Tipos de carro: SUV, Sedan, Hatch");
-                System.out.print("Escolha o tipo: ");
-                modelo = scanner.nextLine();
-                System.out.print("Número de portas: ");
-                int portas = scanner.nextInt();
-                scanner.nextLine();
-                carros.add(new Carro(id, placa, capacidade, alugado, ano, portas));
+        try {
+            switch (tipo) {
+                case 1 -> criarCarro(scanner, placa, capacidade, alugado, ano);
+                case 2 -> criarMoto(scanner, placa, capacidade, alugado, ano);
+                case 3 -> criarColetivo(scanner, placa, capacidade, alugado, ano);
             }
-            case 2 -> {
-                System.out.println("Tipos de moto: Street, Scooter");
-                System.out.print("Escolha o tipo: ");
-                modelo = scanner.nextLine();
-                System.out.print("Tem baú? (true/false): ");
-                boolean bau = scanner.nextBoolean();
-                scanner.nextLine();
-                motos.add(new Moto(id, placa, capacidade, alugado, ano, bau));
-            }
-            case 3 -> {
-                System.out.println("Tipos de coletivo: Van, Mini Van, Ônibus");
-                System.out.print("Escolha o tipo: ");
-                modelo = scanner.nextLine();
-                System.out.print("Número de portas: ");
-                int portasC = scanner.nextInt();
-                scanner.nextLine();
-                System.out.print("Tem banheiro? (true/false): ");
-                boolean banheiro = scanner.nextBoolean();
-                scanner.nextLine();
-                coletivos.add(new Coletivo(id, placa, capacidade, alugado, ano, portasC, banheiro));
-            }
-            default -> {
-                System.out.println("Tipo inválido.");
-                return;
-            }
+        } catch (Exception e) {
+            System.err.println("Erro ao adicionar: " + e.getMessage());
         }
+    }
 
-        // Salvar no banco de dados
-        String sql = "INSERT INTO veiculos (tipo, placa, capacidade, alugado, ano) VALUES (?, ?, ?, ?, ?)";
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+    private static void criarCarro(Scanner scanner, String placa, int capacidade, 
+                                  boolean alugado, int ano) throws Exception {
+        System.out.println("Tipos disponíveis: SUV, Sedan, Hatch");
+        System.out.print("Tipo: ");
+        String tipo = scanner.nextLine();
 
-            stmt.setString(1, modelo);
-            stmt.setString(2, placa);
-            stmt.setInt(3, capacidade);
-            stmt.setBoolean(4, alugado);
-            stmt.setInt(5, ano);
+        System.out.print("Portas: ");
+        int portas = scanner.nextInt();
+        scanner.nextLine();
 
-            stmt.executeUpdate();
-            System.out.println("Veículo salvo no banco de dados com sucesso!");
-        } catch (SQLException e) {
-            System.err.println("Erro ao salvar veículo: " + e.getMessage());
-        }
+        new Carro(placa, capacidade, alugado, ano, portas, tipo).adicionarNoBanco();
+    }
+
+    private static void criarMoto(Scanner scanner, String placa, int capacidade,
+                                 boolean alugado, int ano) throws Exception {
+        System.out.println("Tipos disponíveis: Street, Scooter");
+        System.out.print("Tipo: ");
+        String tipo = scanner.nextLine();
+
+        System.out.print("Tem baú? (true/false): ");
+        boolean bau = scanner.nextBoolean();
+        scanner.nextLine();
+
+        new Moto(placa, capacidade, alugado, ano, bau, tipo).adicionarNoBanco();
+    }
+
+    private static void criarColetivo(Scanner scanner, String placa, int capacidade,
+                                     boolean alugado, int ano) throws Exception {
+        System.out.println("Tipos disponíveis: Van, Mini Van, Ônibus");
+        System.out.print("Tipo: ");
+        String tipo = scanner.nextLine();
+
+        System.out.print("Portas: ");
+        int portas = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.print("Banheiro? (true/false): ");
+        boolean banheiro = scanner.nextBoolean();
+        scanner.nextLine();
+
+        new Coletivo(placa, capacidade, alugado, ano, portas, banheiro, tipo).adicionarNoBanco();
     }
 
     private static void excluirVeiculo(Scanner scanner) {
-        System.out.println("\nEscolha o tipo de veículo para excluir:");
-        System.out.println("[1] Carro");
-        System.out.println("[2] Moto");
-        System.out.println("[3] Coletivo");
-        System.out.print("Escolha uma opção: ");
-        int tipo = scanner.nextInt();
-        scanner.nextLine();
-
-        System.out.print("ID do veículo a ser excluído: ");
+        int tipo = escolherTipoVeiculo(scanner, "excluir");
+        System.out.print("ID do veículo: ");
         int id = scanner.nextInt();
         scanner.nextLine();
 
-        boolean encontrado = switch (tipo) {
-            case 1 -> carros.removeIf(c -> c.getId() == id);
-            case 2 -> motos.removeIf(m -> m.getId() == id);
-            case 3 -> coletivos.removeIf(c -> c.getId() == id);
-            default -> {
-                System.out.println("Tipo inválido.");
-                yield false;
+        try {
+            switch (tipo) {
+                case 1 -> Carro.excluirCarro(id);
+                case 2 -> Moto.excluirMoto(id);
+                case 3 -> Coletivo.excluirColetivo(id);
             }
-        };
-
-        if (encontrado) {
-            System.out.println("Veículo excluído com sucesso!");
-        } else {
-            System.out.println("Veículo não encontrado.");
+        } catch (Exception e) {
+            System.err.println("Erro ao excluir: " + e.getMessage());
         }
     }
 
-    private static void exibirStatus() {
-        System.out.println("\nStatus dos veículos:");
-        System.out.println("Carros:");
-        carros.forEach(Carro::exibirInformacoes);
+    private static void exibirStatusVeiculos(Scanner scanner) {
+        int tipo = escolherTipoVeiculo(scanner, "exibir status");
+        
+        try {
+            switch (tipo) {
+                case 1 -> Carro.exibirCarros();
+                case 2 -> Moto.exibirMotos();
+                case 3 -> Coletivo.exibirColetivos();
+            }
+        } catch (Exception e) {
+            System.err.println("Erro ao exibir: " + e.getMessage());
+        }
+    }
 
-        System.out.println("\nMotos:");
-        motos.forEach(Moto::exibirInformacoes);
-
-        System.out.println("\nColetivos:");
-        coletivos.forEach(Coletivo::exibirInformacoes);
+    private static int escolherTipoVeiculo(Scanner scanner, String acao) {
+        System.out.println("\n=== Tipo para " + acao + " ===");
+        System.out.println("[1] Carro");
+        System.out.println("[2] Moto");
+        System.out.println("[3] Coletivo");
+        System.out.print("Opção: ");
+        return scanner.nextInt();
     }
 }
