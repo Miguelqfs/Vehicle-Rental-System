@@ -5,34 +5,39 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import models.Database;
 
 public class Coletivo extends Veiculo {
     private int portas;
-    private boolean banheiro;
+    private boolean banheiros;
 
-    public Coletivo(String placa, int capacidade, boolean alugado, int ano, int portas, boolean banheiro, String tipo) {
+    public Coletivo(String placa, int capacidade, boolean alugado, int ano, int portas, boolean banheiros, String tipo) {
         super(placa, capacidade, alugado, ano, tipo);
         this.portas = portas;
-        this.banheiro = banheiro;
+        this.banheiros = banheiros;
     }
 
-    // Removido método getConnection() redundante
+    public int getPortas() {
+        return portas;
+    }
 
-    public void adicionarNoBanco() {
-        String query = "INSERT INTO collective_rents (placa, tipo, capacidade, alugado, ano, portas, banheiro) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        
-        try (Connection conn = Database.getConnection();  // Conexão centralizada
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-            
-            stmt.setString(1, getPlaca());
-            stmt.setString(2, getTipo());
+    public boolean hasBanheiros() {
+        return banheiros;
+    }
+
+    public void salvarNoBanco() {
+        String sql = "INSERT INTO coletivo_rents (tipo, placa, capacidade, alugado, ano, portas, banheiros) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = Database.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, getTipo());
+            stmt.setString(2, getPlaca());
             stmt.setInt(3, getCapacidade());
             stmt.setBoolean(4, isAlugado());
             stmt.setInt(5, getAno());
             stmt.setInt(6, portas);
-            stmt.setBoolean(7, banheiro);
-            
+            stmt.setBoolean(7, banheiros);
+
             stmt.executeUpdate();
             System.out.println("Coletivo salvo com sucesso!");
         } catch (SQLException e) {
@@ -43,7 +48,7 @@ public class Coletivo extends Veiculo {
     public static void excluirColetivo(int idColetivo) {
         String query = "DELETE FROM collective_rents WHERE id = ?";
         
-        try (Connection conn = Database.getConnection();  // Conexão centralizada
+        try (Connection conn = Database.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
             
             pstmt.setInt(1, idColetivo);
@@ -63,7 +68,7 @@ public class Coletivo extends Veiculo {
     public static void exibirColetivos() {
         String query = "SELECT * FROM collective_rents ORDER BY id";
         
-        try (Connection conn = Database.getConnection();  // Conexão centralizada
+        try (Connection conn = Database.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
             
@@ -94,10 +99,10 @@ public class Coletivo extends Veiculo {
     @Override
     public void exibirInformacoes() {
         System.out.printf(
-            "Coletivo [Placa: %s, Tipo: %s, Capacidade: %d, Ano: %d, Portas: %d, Banheiro: %s, Alugado: %s]%n",
+            "Coletivo [Placa: %s, Tipo: %s, Capacidade: %d, Ano: %d, Portas: %d, Banheiros: %s, Alugado: %s]%n",
             getPlaca(), getTipo(), getCapacidade(), getAno(), 
             portas, 
-            banheiro ? "Sim" : "Não", 
+            banheiros ? "Sim" : "Não", 
             isAlugado() ? "Sim" : "Não"
         );
     }

@@ -1,3 +1,7 @@
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import models.Carro;
@@ -56,81 +60,63 @@ public class Main {
         String placa = scanner.nextLine();
 
         System.out.print("Capacidade: ");
-        while (!scanner.hasNextInt()) { 
-            System.out.println("Entrada inválida! Digite um número para a capacidade.");
-            scanner.next(); 
-        }
         int capacidade = scanner.nextInt();
-        scanner.nextLine(); 
+        scanner.nextLine();
 
         System.out.print("Ano: ");
-        while (!scanner.hasNextInt()) { 
-            System.out.println("Entrada inválida! Digite um número para o ano.");
-            scanner.next(); 
-        }
         int ano = scanner.nextInt();
-        scanner.nextLine(); 
+        scanner.nextLine();
 
         System.out.print("Está alugado? (true/false): ");
-        while (!scanner.hasNextBoolean()) {
-            System.out.println("Entrada inválida! Digite true ou false.");
-            scanner.next(); 
-        }
         boolean alugado = scanner.nextBoolean();
-        scanner.nextLine(); 
+        scanner.nextLine();
 
         try {
             switch (tipo) {
-                case 1 -> criarCarro(scanner, placa, capacidade, alugado, ano);
-                case 2 -> criarMoto(scanner, placa, capacidade, alugado, ano);
-                case 3 -> criarColetivo(scanner, placa, capacidade, alugado, ano);
+                case 1 -> {
+                    System.out.println("Tipos disponíveis: SUV, Sedan, Hatch");
+                    System.out.print("Tipo: ");
+                    String tipoCarro = scanner.nextLine();
+
+                    System.out.print("Portas: ");
+                    int portas = scanner.nextInt();
+                    scanner.nextLine();
+
+                    Carro carro = new Carro(placa, capacidade, alugado, ano, portas, tipoCarro);
+                    carro.salvarNoBanco();
+                }
+                case 2 -> {
+                    System.out.println("Tipos disponíveis: Street, Scooter");
+                    System.out.print("Tipo: ");
+                    String tipoMoto = scanner.nextLine();
+
+                    System.out.print("Bau (true/false): ");
+                    boolean bau = scanner.nextBoolean();
+                    scanner.nextLine();
+
+                    Moto moto = new Moto(placa, capacidade, alugado, ano, bau, tipoMoto);
+                    moto.salvarNoBanco();
+                }
+                case 3 -> {
+                    System.out.println("Tipos disponíveis: Van, Mini Van, Onibus");
+                    System.out.print("Tipo: ");
+                    String tipoColetivo = scanner.nextLine();
+
+                    System.out.print("Portas: ");
+                    int portas = scanner.nextInt();
+                    scanner.nextLine();
+
+                    System.out.print("Banheiros (true/false): ");
+                    boolean banheiros = scanner.nextBoolean();
+                    scanner.nextLine();
+
+                    Coletivo coletivo = new Coletivo(placa, capacidade, alugado, ano, portas, banheiros, tipoColetivo);
+                    coletivo.salvarNoBanco();
+                }
             }
         } catch (Exception e) {
             System.err.println("Erro ao adicionar: " + e.getMessage());
         }
-    }
-
-    private static void criarCarro(Scanner scanner, String placa, int capacidade, 
-                                  boolean alugado, int ano) throws Exception {
-        System.out.println("Tipos disponíveis: SUV, Sedan, Hatch");
-        System.out.print("Tipo: ");
-        String tipo = scanner.nextLine();
-
-        System.out.print("Portas: ");
-        int portas = scanner.nextInt();
-        scanner.nextLine();
-
-        new Carro(placa, capacidade, alugado, ano, portas, tipo).adicionarNoBanco();
-    }
-
-    private static void criarMoto(Scanner scanner, String placa, int capacidade,
-                                 boolean alugado, int ano) throws Exception {
-        System.out.println("Tipos disponíveis: Street, Scooter");
-        System.out.print("Tipo: ");
-        String tipo = scanner.nextLine();
-
-        System.out.print("Tem baú? (true/false): ");
-        boolean bau = scanner.nextBoolean();
-        scanner.nextLine();
-
-        new Moto(placa, capacidade, alugado, ano, bau, tipo).adicionarNoBanco();
-    }
-
-    private static void criarColetivo(Scanner scanner, String placa, int capacidade,
-                                     boolean alugado, int ano) throws Exception {
-        System.out.println("Tipos disponíveis: Van, Mini Van, Ônibus");
-        System.out.print("Tipo: ");
-        String tipo = scanner.nextLine();
-
-        System.out.print("Portas: ");
-        int portas = scanner.nextInt();
-        scanner.nextLine();
-
-        System.out.print("Banheiro? (true/false): ");
-        boolean banheiro = scanner.nextBoolean();
-        scanner.nextLine();
-
-        new Coletivo(placa, capacidade, alugado, ano, portas, banheiro, tipo).adicionarNoBanco();
     }
 
     private static void excluirVeiculo(Scanner scanner) {
@@ -141,9 +127,9 @@ public class Main {
 
         try {
             switch (tipo) {
-                case 1 -> Carro.excluirCarro(id);
-                case 2 -> Moto.excluirMoto(id);
-                case 3 -> Coletivo.excluirColetivo(id);
+                case 1 -> excluirCarro(id);
+                case 2 -> excluirMoto(id);
+                case 3 -> excluirColetivo(id);
             }
         } catch (Exception e) {
             System.err.println("Erro ao excluir: " + e.getMessage());
@@ -173,5 +159,129 @@ public class Main {
         int tipo = scanner.nextInt();
         scanner.nextLine();
         return tipo;
+    }
+
+    public static void excluirCarro(int id) {
+        String sql = "DELETE FROM car_rents WHERE id = ?";
+
+        try (Connection conn = Database.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+            int rowsAffected = stmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Carro excluído com sucesso!");
+            } else {
+                System.out.println("Carro não encontrado.");
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao excluir carro: " + e.getMessage());
+        }
+    }
+
+    public static void excluirMoto(int id) {
+        String sql = "DELETE FROM moto_rents WHERE id = ?";
+
+        try (Connection conn = Database.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+            int rowsAffected = stmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Moto excluída com sucesso!");
+            } else {
+                System.out.println("Moto não encontrada.");
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao excluir moto: " + e.getMessage());
+        }
+    }
+
+    public static void excluirColetivo(int id) {
+        String sql = "DELETE FROM coletivo_rents WHERE id = ?";
+
+        try (Connection conn = Database.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+            int rowsAffected = stmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Coletivo excluído com sucesso!");
+            } else {
+                System.out.println("Coletivo não encontrado.");
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao excluir coletivo: " + e.getMessage());
+        }
+    }
+
+    public static void exibirCarros() {
+        String sql = "SELECT * FROM car_rents";
+
+        try (Connection conn = Database.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            System.out.println("\n=== Carros Cadastrados ===");
+            while (rs.next()) {
+                System.out.println("ID: " + rs.getInt("id") +
+                                   ", Tipo: " + rs.getString("tipo") +
+                                   ", Placa: " + rs.getString("placa") +
+                                   ", Capacidade: " + rs.getInt("capacidade") +
+                                   ", Alugado: " + rs.getBoolean("alugado") +
+                                   ", Ano: " + rs.getInt("ano") +
+                                   ", Portas: " + rs.getInt("portas"));
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao exibir carros: " + e.getMessage());
+        }
+    }
+
+    public static void exibirMotos() {
+        String sql = "SELECT * FROM moto_rents";
+
+        try (Connection conn = Database.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            System.out.println("\n=== Motos Cadastradas ===");
+            while (rs.next()) {
+                System.out.println("ID: " + rs.getInt("id") +
+                                   ", Tipo: " + rs.getString("tipo") +
+                                   ", Placa: " + rs.getString("placa") +
+                                   ", Capacidade: " + rs.getInt("capacidade") +
+                                   ", Alugado: " + rs.getBoolean("alugado") +
+                                   ", Ano: " + rs.getInt("ano") +
+                                   ", Bau: " + rs.getBoolean("bau"));
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao exibir motos: " + e.getMessage());
+        }
+    }
+
+    public static void exibirColetivos() {
+        String sql = "SELECT * FROM coletivo_rents";
+
+        try (Connection conn = Database.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            System.out.println("\n=== Coletivos Cadastrados ===");
+            while (rs.next()) {
+                System.out.println("ID: " + rs.getInt("id") +
+                                   ", Tipo: " + rs.getString("tipo") +
+                                   ", Placa: " + rs.getString("placa") +
+                                   ", Capacidade: " + rs.getInt("capacidade") +
+                                   ", Alugado: " + rs.getBoolean("alugado") +
+                                   ", Ano: " + rs.getInt("ano") +
+                                   ", Portas: " + rs.getInt("portas") +
+                                   ", Banheiros: " + rs.getBoolean("banheiros"));
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao exibir coletivos: " + e.getMessage());
+        }
     }
 }

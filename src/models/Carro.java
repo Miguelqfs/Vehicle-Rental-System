@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import models.Database;
 
 public class Carro extends Veiculo {
     private int portas;
@@ -16,26 +15,26 @@ public class Carro extends Veiculo {
     }
 
     public int getPortas() {
-        return this.portas;
+        return portas;
     }
 
     public void setPortas(int portas) {
         this.portas = portas;
     }
 
-    public void adicionarNoBanco() {
-        String query = "INSERT INTO car_rents (placa, tipo, capacidade, alugado, ano, portas) VALUES (?, ?, ?, ?, ?, ?)";
-        
-        try (Connection conn = Database.getConnection();  // Usando conexão centralizada
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-            
-            stmt.setString(1, getPlaca());
-            stmt.setString(2, getTipo());
+    public void salvarNoBanco() {
+        String sql = "INSERT INTO car_rents (tipo, placa, capacidade, alugado, ano, portas) VALUES (?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = Database.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, getTipo());
+            stmt.setString(2, getPlaca());
             stmt.setInt(3, getCapacidade());
             stmt.setBoolean(4, isAlugado());
             stmt.setInt(5, getAno());
-            stmt.setInt(6, getPortas());
-            
+            stmt.setInt(6, portas);
+
             stmt.executeUpdate();
             System.out.println("Carro salvo com sucesso!");
         } catch (SQLException e) {

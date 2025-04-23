@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import models.Database;
 
 public class Moto extends Veiculo {
     private boolean bau;
@@ -15,7 +14,7 @@ public class Moto extends Veiculo {
         this.bau = bau;
     }
 
-    public boolean temBau() {
+    public boolean hasBau() {
         return bau;
     }
 
@@ -23,21 +22,19 @@ public class Moto extends Veiculo {
         this.bau = bau;
     }
 
-    // Removido método getConnection() redundante
+    public void salvarNoBanco() {
+        String sql = "INSERT INTO moto_rents (tipo, placa, capacidade, alugado, ano, bau) VALUES (?, ?, ?, ?, ?, ?)";
 
-    public void adicionarNoBanco() {
-        String query = "INSERT INTO motorcycle_rents (placa, tipo, capacidade, alugado, ano, bau) VALUES (?, ?, ?, ?, ?, ?)";
-        
-        try (Connection conn = Database.getConnection();  // Conexão centralizada
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-            
-            stmt.setString(1, getPlaca());
-            stmt.setString(2, getTipo());
+        try (Connection conn = Database.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, getTipo());
+            stmt.setString(2, getPlaca());
             stmt.setInt(3, getCapacidade());
             stmt.setBoolean(4, isAlugado());
             stmt.setInt(5, getAno());
-            stmt.setBoolean(6, temBau());
-            
+            stmt.setBoolean(6, bau);
+
             stmt.executeUpdate();
             System.out.println("Moto salva com sucesso!");
         } catch (SQLException e) {
@@ -100,7 +97,7 @@ public class Moto extends Veiculo {
         System.out.printf(
             "Moto [Placa: %s, Tipo: %s, Capacidade: %d, Ano: %d, Baú: %s, Alugado: %s]%n",
             getPlaca(), getTipo(), getCapacidade(), getAno(), 
-            temBau() ? "Sim" : "Não", 
+            hasBau() ? "Sim" : "Não", 
             isAlugado() ? "Sim" : "Não"
         );
     }
