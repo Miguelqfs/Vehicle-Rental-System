@@ -2,8 +2,8 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 import models.Carro;
 import models.Coletivo;
-import models.Moto;
 import models.Database;
+import models.Moto;
 
 public class Main {
     public static void main(String[] args) {
@@ -51,21 +51,21 @@ public class Main {
 
     private static void adicionarVeiculo(Scanner scanner) {
         int tipo = escolherTipoVeiculo(scanner, "adicionar");
-        
+
         System.out.print("Placa: ");
         String placa = scanner.nextLine();
 
         System.out.print("Capacidade: ");
         int capacidade = scanner.nextInt();
-        scanner.nextLine();
+        scanner.nextLine(); // Limpa o buffer
 
         System.out.print("Ano: ");
         int ano = scanner.nextInt();
-        scanner.nextLine();
+        scanner.nextLine(); 
 
         System.out.print("Está alugado? (true/false): ");
         boolean alugado = scanner.nextBoolean();
-        scanner.nextLine();
+        scanner.nextLine(); 
 
         try {
             switch (tipo) {
