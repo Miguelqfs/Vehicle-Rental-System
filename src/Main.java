@@ -17,7 +17,7 @@ public class Main {
                 try {
                     System.out.print("Escolha uma opção: ");
                     opcao = scanner.nextInt();
-                    scanner.nextLine();  // Limpar buffer
+                    scanner.nextLine(); 
                     
                     switch (opcao) {
                         case 1 -> adicionarVeiculo(scanner);
@@ -29,7 +29,7 @@ public class Main {
                     
                 } catch (InputMismatchException e) {
                     System.err.println("Erro: Entrada inválida!");
-                    scanner.nextLine();  // Limpar entrada incorreta
+                    scanner.nextLine(); 
                 }
                 
             } while (opcao != 4);
@@ -56,14 +56,26 @@ public class Main {
         String placa = scanner.nextLine();
 
         System.out.print("Capacidade: ");
+        while (!scanner.hasNextInt()) { 
+            System.out.println("Entrada inválida! Digite um número para a capacidade.");
+            scanner.next(); 
+        }
         int capacidade = scanner.nextInt();
-        scanner.nextLine(); // Limpa o buffer
+        scanner.nextLine(); 
 
         System.out.print("Ano: ");
+        while (!scanner.hasNextInt()) { 
+            System.out.println("Entrada inválida! Digite um número para o ano.");
+            scanner.next(); 
+        }
         int ano = scanner.nextInt();
         scanner.nextLine(); 
 
         System.out.print("Está alugado? (true/false): ");
+        while (!scanner.hasNextBoolean()) {
+            System.out.println("Entrada inválida! Digite true ou false.");
+            scanner.next(); 
+        }
         boolean alugado = scanner.nextBoolean();
         scanner.nextLine(); 
 
@@ -158,6 +170,8 @@ public class Main {
         System.out.println("[2] Moto");
         System.out.println("[3] Coletivo");
         System.out.print("Opção: ");
-        return scanner.nextInt();
+        int tipo = scanner.nextInt();
+        scanner.nextLine();
+        return tipo;
     }
 }
