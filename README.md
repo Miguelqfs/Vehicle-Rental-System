@@ -3,8 +3,8 @@
 ## Capa e Identificação
 
 - **Título do Projeto:** Sistema de Gerenciamento de Aluguel de Veículos  
-- **Integrantes da Equipe:** Luigi Schmitt, Luís Aranha e Miguel Queiroz
-- **Cadeira:** Programação Orientada a Objetos
+- **Integrantes da Equipe:** Luigi Schmitt, Luís Aranha e Miguel Queiroz  
+- **Cadeira:** Programação Orientada a Objetos  
 
 ## Introdução
 
@@ -13,9 +13,9 @@ O Vehicle Rental System é uma aplicação Java desenvolvida para gerenciar o ca
 O problema abordado envolve a gestão de um catálogo diversificado de veículos disponíveis para aluguel, onde cada tipo de veículo possui atributos comuns (como placa e capacidade) e atributos específicos de sua categoria. A solução proposta permite cadastrar, excluir e visualizar os diferentes veículos, mantendo todas as informações organizadas em um banco de dados relacional.
 
 O sistema atende três categorias principais de veículos:
-- **Carros**: com tipos específicos como SUV, Sedan e Hatch
-- **Motos**: incluindo variantes como Street e Scooter
-- **Coletivos**: abrangendo Van, Mini Van e Ônibus
+- **Carros**: com tipos específicos como SUV, Sedan e Hatch  
+- **Motos**: incluindo variantes como Street e Scooter  
+- **Coletivos**: abrangendo Van, Mini Van e Ônibus  
 
 Esta abordagem facilita a expansão futura do sistema para incluir novas categorias ou atributos, mantendo a organização e a integridade dos dados.
 
@@ -27,21 +27,9 @@ A solução implementada segue os princípios da Programação Orientada a Objet
    - Uma classe base abstrata `Veiculo` que define os atributos e comportamentos comuns
    - Subclasses específicas `Carro`, `Moto` e `Coletivo` que herdam da classe base e implementam características específicas
 
-2. **Estrutura UML Simplificada**:
-```
-Veiculo (Abstrata)
-|
-|-- Carro
-| |-- atributos: portas, tipoCarro
-|
-|-- Moto
-| |-- atributos: bau, tipoMoto
-|
-|-- Coletivo
-|-- atributos: portas, banheiro, tipoColetivo
-```
 
-## 3. **Diagrama UML do Sistema de Aluguel de Veículos**
+
+## Diagrama UML do Sistema de Aluguel de Veículos
 
 ```mermaid
 classDiagram
@@ -129,17 +117,17 @@ classDiagram
     Main --> Moto
     Main --> Coletivo
 
-3. **Encapsulamento**: Todas as classes implementam encapsulamento adequado com métodos getters e setters para acesso controlado aos atributos.
+## Encapsulamento e Polimorfismo
 
-4. **Polimorfismo**: 
+1. **Encapsulamento**: Todas as classes implementam encapsulamento adequado com métodos getters e setters para acesso controlado aos atributos.
+
+2. **Polimorfismo**: 
 - Polimorfismo estático: através de construtores e métodos sobrecarregados
 - Polimorfismo dinâmico: através da implementação específica do método `salvarNoBanco()` em cada subclasse
 
-5. **Interfaces e Classes Abstratas**: A classe base `Veiculo` implementa comportamentos abstratos que são especializados nas subclasses.
+3. **Interfaces e Classes Abstratas**: A classe base `Veiculo` implementa comportamentos abstratos que são especializados nas subclasses.
 
-6. **Collections**: Uso de estruturas de dados como ArrayList para manipular conjuntos de veículos.
-
-7. **Tratamento de Exceções**: Implementação de blocos try-catch para tratar erros de entrada de dados e falhas na comunicação com o banco de dados.
+4. **Tratamento de Exceções**: Implementação de blocos try-catch para tratar erros de entrada de dados e falhas na comunicação com o banco de dados.
 
 ## Ferramentas Utilizadas
 
