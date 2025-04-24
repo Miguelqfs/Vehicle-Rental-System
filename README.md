@@ -41,6 +41,94 @@ Veiculo (Abstrata)
 |-- atributos: portas, banheiro, tipoColetivo
 ```
 
+## 3. **Diagrama UML do Sistema de Aluguel de Veículos**
+
+```mermaid
+classDiagram
+    class Veiculo {
+        <<abstract>>
+        - String placa
+        - int capacidade
+        - boolean alugado
+        - int ano
+        - String tipo
+        + Veiculo(String placa, int capacidade, boolean alugado, int ano, String tipo)
+        + getPlaca(): String
+        + setPlaca(String placa)
+        + getCapacidade(): int
+        + setCapacidade(int capacidade)
+        + isAlugado(): boolean
+        + setAlugado(boolean alugado)
+        + getAno(): int
+        + setAno(int ano)
+        + getTipo(): String
+        + setTipo(String tipo)
+        + exibirInformacoes()*
+    }
+
+    class Carro {
+        - int portas
+        + Carro(String placa, int capacidade, boolean alugado, int ano, int portas, String tipo)
+        + getPortas(): int
+        + setPortas(int portas)
+        + salvarNoBanco()
+        + exibirCarros()
+        + excluirCarro(int idCarro)
+        + exibirInformacoes()
+    }
+
+    class Moto {
+        - boolean bau
+        + Moto(String placa, int capacidade, boolean alugado, int ano, boolean bau, String tipo)
+        + hasBau(): boolean
+        + setBau(boolean bau)
+        + salvarNoBanco()
+        + exibirMotos()
+        + excluirMoto(int idMoto)
+        + exibirInformacoes()
+    }
+
+    class Coletivo {
+        - int portas
+        - boolean banheiros
+        + Coletivo(String placa, int capacidade, boolean alugado, int ano, int portas, boolean banheiros, String tipo)
+        + getPortas(): int
+        + hasBanheiros(): boolean
+        + salvarNoBanco()
+        + exibirColetivos()
+        + excluirColetivo(int idColetivo)
+        + exibirInformacoes()
+    }
+
+    class Database {
+        + getConnection(): Connection
+        + testarConexao()
+    }
+
+    class Main {
+        + main(String[] args)
+        - exibirMenu()
+        - adicionarVeiculo(Scanner scanner)
+        - excluirVeiculo(Scanner scanner)
+        - exibirStatusVeiculos(Scanner scanner)
+        - escolherTipoVeiculo(Scanner scanner, String acao): int
+        - excluirCarro(int id)
+        - excluirMoto(int id)
+        - excluirColetivo(int id)
+        - exibirCarros()
+        - exibirMotos()
+        - exibirColetivos()
+        - sanitizeString(String input): String
+    }
+
+    Veiculo <|-- Carro
+    Veiculo <|-- Moto
+    Veiculo <|-- Coletivo
+    Main --> Database
+    Main --> Carro
+    Main --> Moto
+    Main --> Coletivo
+
 3. **Encapsulamento**: Todas as classes implementam encapsulamento adequado com métodos getters e setters para acesso controlado aos atributos.
 
 4. **Polimorfismo**: 
