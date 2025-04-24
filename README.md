@@ -27,10 +27,9 @@ A solução implementada segue os princípios da Programação Orientada a Objet
    - Uma classe base abstrata `Veiculo` que define os atributos e comportamentos comuns
    - Subclasses específicas `Carro`, `Moto` e `Coletivo` que herdam da classe base e implementam características específicas
 
-
-
 ## Diagrama UML do Sistema de Aluguel de Veículos
 
+```mermaid
 classDiagram
     class Veiculo {
         <<abstract>>
@@ -115,7 +114,7 @@ classDiagram
     Main --> Carro
     Main --> Moto
     Main --> Coletivo
-
+```
 
 ## Encapsulamento e Polimorfismo
 
@@ -141,7 +140,7 @@ classDiagram
 - Driver JDBC para PostgreSQL
 
 ### Estrutura de Pacotes
-```
+
 src/
 ├── main/
 │ ├── java/
