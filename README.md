@@ -27,6 +27,18 @@ A solução implementada segue os princípios da Programação Orientada a Objet
    - Uma classe base abstrata `Veiculo` que define os atributos e comportamentos comuns
    - Subclasses específicas `Carro`, `Moto` e `Coletivo` que herdam da classe base e implementam características específicas
 
+2. **Encapsulamento**: Todas as classes implementam encapsulamento adequado com métodos getters e setters para acesso controlado aos atributos.
+
+3. **Polimorfismo**: 
+- Polimorfismo estático: através de construtores e métodos sobrecarregados
+- Polimorfismo dinâmico: através da implementação específica do método `salvarNoBanco()` em cada subclasse
+
+4. **Interfaces e Classes Abstratas**: A classe base `Veiculo` implementa comportamentos abstratos que são especializados nas subclasses.
+
+5. **Collections**: Uso de estruturas de dados como ArrayList para manipular conjuntos de veículos.
+
+6. **Tratamento de Exceções**: Implementação de blocos try-catch para tratar erros de entrada de dados e falhas na comunicação com o banco de dados.
+
 ## Diagrama UML do Sistema de Aluguel de Veículos
 
 ```mermaid
@@ -115,19 +127,6 @@ classDiagram
     Main --> Moto
     Main --> Coletivo
 ```
-
-3. **Encapsulamento**: Todas as classes implementam encapsulamento adequado com métodos getters e setters para acesso controlado aos atributos.
-
-4. **Polimorfismo**: 
-- Polimorfismo estático: através de construtores e métodos sobrecarregados
-- Polimorfismo dinâmico: através da implementação específica do método `salvarNoBanco()` em cada subclasse
-
-5. **Interfaces e Classes Abstratas**: A classe base `Veiculo` implementa comportamentos abstratos que são especializados nas subclasses.
-
-6. **Collections**: Uso de estruturas de dados como ArrayList para manipular conjuntos de veículos.
-
-7. **Tratamento de Exceções**: Implementação de blocos try-catch para tratar erros de entrada de dados e falhas na comunicação com o banco de dados.
-
 ## Ferramentas Utilizadas
 
 ### Ambiente de Desenvolvimento
