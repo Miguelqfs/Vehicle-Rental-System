@@ -43,7 +43,7 @@ public class Moto extends Veiculo {
     }
 
     public static void excluirMoto(int idMoto) {
-        String query = "DELETE FROM motorcycle_rents WHERE id = ?";
+        String query = "DELETE FROM moto_rents WHERE id = ?";
         
         try (Connection conn = Database.getConnection();  // Conexão centralizada
              PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -63,7 +63,7 @@ public class Moto extends Veiculo {
     }
 
     public static void exibirMotos() {
-        String query = "SELECT * FROM motorcycle_rents ORDER BY id";
+        String query = "SELECT * FROM moto_rents ORDER BY id";
         
         try (Connection conn = Database.getConnection();  // Conexão centralizada
              Statement stmt = conn.createStatement();

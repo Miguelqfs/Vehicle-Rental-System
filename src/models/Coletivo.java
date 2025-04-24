@@ -46,7 +46,7 @@ public class Coletivo extends Veiculo {
     }
 
     public static void excluirColetivo(int idColetivo) {
-        String query = "DELETE FROM collective_rents WHERE id = ?";
+        String query = "DELETE FROM coletivo_rents WHERE id = ?";
         
         try (Connection conn = Database.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -66,7 +66,7 @@ public class Coletivo extends Veiculo {
     }
 
     public static void exibirColetivos() {
-        String query = "SELECT * FROM collective_rents ORDER BY id";
+        String query = "SELECT * FROM coletivo_rents ORDER BY id";
         
         try (Connection conn = Database.getConnection();
              Statement stmt = conn.createStatement();

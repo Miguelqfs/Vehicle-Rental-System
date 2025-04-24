@@ -271,14 +271,18 @@ public class Main {
 
             System.out.println("\n=== Coletivos Cadastrados ===");
             while (rs.next()) {
-                System.out.println("ID: " + rs.getInt("id") +
-                                   ", Tipo: " + rs.getString("tipo") +
-                                   ", Placa: " + rs.getString("placa") +
-                                   ", Capacidade: " + rs.getInt("capacidade") +
-                                   ", Alugado: " + rs.getBoolean("alugado") +
-                                   ", Ano: " + rs.getInt("ano") +
-                                   ", Portas: " + rs.getInt("portas") +
-                                   ", Banheiros: " + rs.getBoolean("banheiros"));
+                try {
+                    System.out.println("ID: " + rs.getInt("id") +
+                                       ", Tipo: " + rs.getString("tipo") +
+                                       ", Placa: " + rs.getString("placa") +
+                                       ", Capacidade: " + rs.getInt("capacidade") +
+                                       ", Alugado: " + rs.getBoolean("alugado") +
+                                       ", Ano: " + rs.getInt("ano") +
+                                       ", Portas: " + rs.getInt("portas") +
+                                       ", Banheiro: " + rs.getBoolean("banheiro"));
+                } catch (SQLException e) {
+                    System.err.println("Erro ao processar ResultSet: " + e.getMessage());
+                }
             }
         } catch (SQLException e) {
             System.err.println("Erro ao exibir coletivos: " + e.getMessage());
