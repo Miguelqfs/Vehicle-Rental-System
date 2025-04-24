@@ -25,7 +25,7 @@ public class Coletivo extends Veiculo {
     }
 
     public void salvarNoBanco() {
-        String sql = "INSERT INTO coletivo_rents (tipo, placa, capacidade, alugado, ano, portas, banheiros) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO coletivo_rents (tipo, placa, capacidade, alugado, ano, portas, banheiro) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = Database.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {

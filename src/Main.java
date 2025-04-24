@@ -56,59 +56,154 @@ public class Main {
     private static void adicionarVeiculo(Scanner scanner) {
         int tipo = escolherTipoVeiculo(scanner, "adicionar");
 
-        System.out.print("Placa: ");
-        String placa = scanner.nextLine();
+        String placa;
+        do {
+            System.out.print("Placa (formato LLLNNNN): ");
+            placa = scanner.nextLine().toUpperCase().trim();
+            if (!placa.matches("[A-Z]{3}\\d{4}")) {
+                System.out.println("Formato inválido! Tente novamente.");
+            }
+        } while (!placa.matches("[A-Z]{3}\\d{4}"));
 
-        System.out.print("Capacidade: ");
-        int capacidade = scanner.nextInt();
-        scanner.nextLine();
+        int capacidade = 0;
+        do {
+            System.out.print("Capacidade: ");
+            if (scanner.hasNextInt()) {
+                capacidade = scanner.nextInt();
+                scanner.nextLine();
+                if (capacidade <= 0) {
+                    System.out.println("Capacidade deve ser um número positivo!");
+                }
+            } else {
+                System.out.println("Entrada inválida! Digite um número.");
+                scanner.nextLine(); // Limpa o buffer
+            }
+        } while (capacidade <= 0);
 
-        System.out.print("Ano: ");
-        int ano = scanner.nextInt();
-        scanner.nextLine();
+        int ano = 0;
+        do {
+            System.out.print("Ano: ");
+            if (scanner.hasNextInt()) {
+                ano = scanner.nextInt();
+                scanner.nextLine();
+                if (ano <= 0) {
+                    System.out.println("Ano deve ser um número positivo!");
+                }
+            } else {
+                System.out.println("Entrada inválida! Digite um número.");
+                scanner.nextLine(); // Limpa o buffer
+            }
+        } while (ano <= 0);
 
-        System.out.print("Está alugado? (true/false): ");
-        boolean alugado = scanner.nextBoolean();
-        scanner.nextLine();
+        boolean alugado = false;
+        do {
+            System.out.print("Está alugado? (true/false): ");
+            if (scanner.hasNextBoolean()) {
+                alugado = scanner.nextBoolean();
+                scanner.nextLine();
+                break;
+            } else {
+                System.out.println("Entrada inválida! Digite true ou false.");
+                scanner.nextLine(); // Limpa o buffer
+            }
+        } while (true);
 
         try {
             switch (tipo) {
                 case 1 -> {
                     System.out.println("Tipos disponíveis: SUV, Sedan, Hatch");
-                    System.out.print("Tipo: ");
-                    String tipoCarro = scanner.nextLine();
+                    String tipoCarro;
+                    do {
+                        System.out.print("Tipo: ");
+                        tipoCarro = sanitizeString(scanner.nextLine());
+                        if (!tipoCarro.matches("SUV|Sedan|Hatch")) {
+                            System.out.println("Tipo inválido! Escolha entre SUV, Sedan ou Hatch.");
+                        }
+                    } while (!tipoCarro.matches("SUV|Sedan|Hatch"));
 
-                    System.out.print("Portas: ");
-                    int portas = scanner.nextInt();
-                    scanner.nextLine();
+                    int portas = 0;
+                    do {
+                        System.out.print("Portas (número positivo): ");
+                        if (scanner.hasNextInt()) {
+                            portas = scanner.nextInt();
+                            scanner.nextLine();
+                            if (portas <= 0) {
+                                System.out.println("Número de portas deve ser positivo!");
+                            }
+                        } else {
+                            System.out.println("Entrada inválida! Digite um número.");
+                            scanner.nextLine(); // Limpa o buffer
+                        }
+                    } while (portas <= 0);
 
                     Carro carro = new Carro(placa, capacidade, alugado, ano, portas, tipoCarro);
                     carro.salvarNoBanco();
                 }
                 case 2 -> {
                     System.out.println("Tipos disponíveis: Street, Scooter");
-                    System.out.print("Tipo: ");
-                    String tipoMoto = scanner.nextLine();
+                    String tipoMoto;
+                    do {
+                        System.out.print("Tipo: ");
+                        tipoMoto = sanitizeString(scanner.nextLine());
+                        if (!tipoMoto.matches("Street|Scooter")) {
+                            System.out.println("Tipo inválido! Escolha entre Street ou Scooter.");
+                        }
+                    } while (!tipoMoto.matches("Street|Scooter"));
 
-                    System.out.print("Bau (true/false): ");
-                    boolean bau = scanner.nextBoolean();
-                    scanner.nextLine();
+                    boolean bau = false;
+                    do {
+                        System.out.print("Baú presente? (true/false): ");
+                        if (scanner.hasNextBoolean()) {
+                            bau = scanner.nextBoolean();
+                            scanner.nextLine();
+                            break;
+                        } else {
+                            System.out.println("Entrada inválida! Digite true ou false.");
+                            scanner.nextLine(); // Limpa o buffer
+                        }
+                    } while (true);
 
                     Moto moto = new Moto(placa, capacidade, alugado, ano, bau, tipoMoto);
                     moto.salvarNoBanco();
                 }
                 case 3 -> {
                     System.out.println("Tipos disponíveis: Van, Mini Van, Onibus");
-                    System.out.print("Tipo: ");
-                    String tipoColetivo = scanner.nextLine();
+                    String tipoColetivo;
+                    do {
+                        System.out.print("Tipo: ");
+                        tipoColetivo = sanitizeString(scanner.nextLine());
+                        if (!tipoColetivo.matches("Van|Mini Van|Onibus")) {
+                            System.out.println("Tipo inválido! Escolha entre Van, Mini Van ou Onibus.");
+                        }
+                    } while (!tipoColetivo.matches("Van|Mini Van|Onibus"));
 
-                    System.out.print("Portas: ");
-                    int portas = scanner.nextInt();
-                    scanner.nextLine();
+                    int portas = 0;
+                    do {
+                        System.out.print("Portas (número positivo): ");
+                        if (scanner.hasNextInt()) {
+                            portas = scanner.nextInt();
+                            scanner.nextLine();
+                            if (portas <= 0) {
+                                System.out.println("Número de portas deve ser positivo!");
+                            }
+                        } else {
+                            System.out.println("Entrada inválida! Digite um número.");
+                            scanner.nextLine(); // Limpa o buffer
+                        }
+                    } while (portas <= 0);
 
-                    System.out.print("Banheiros (true/false): ");
-                    boolean banheiros = scanner.nextBoolean();
-                    scanner.nextLine();
+                    boolean banheiros = false;
+                    do {
+                        System.out.print("Banheiros presentes? (true/false): ");
+                        if (scanner.hasNextBoolean()) {
+                            banheiros = scanner.nextBoolean();
+                            scanner.nextLine();
+                            break;
+                        } else {
+                            System.out.println("Entrada inválida! Digite true ou false.");
+                            scanner.nextLine(); // Limpa o buffer
+                        }
+                    } while (true);
 
                     Coletivo coletivo = new Coletivo(placa, capacidade, alugado, ano, portas, banheiros, tipoColetivo);
                     coletivo.salvarNoBanco();
@@ -157,6 +252,10 @@ public class Main {
         System.out.println("[3] Coletivo");
         System.out.print("Opção: ");
         int tipo = scanner.nextInt();
+        if (tipo < 1 || tipo > 3) {
+            System.out.println("Tipo inválido! Tente novamente.");
+            return escolherTipoVeiculo(scanner, acao);
+        }
         scanner.nextLine();
         return tipo;
     }
@@ -287,5 +386,10 @@ public class Main {
         } catch (SQLException e) {
             System.err.println("Erro ao exibir coletivos: " + e.getMessage());
         }
+    }
+
+    private static String sanitizeString(String input) {
+        // Remove caracteres especiais e espaços extras
+        return input.replaceAll("[^a-zA-Z0-9 ]", "").trim();
     }
 }
