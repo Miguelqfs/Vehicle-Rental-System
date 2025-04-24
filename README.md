@@ -155,6 +155,7 @@ classDiagram
 ---
 
 ### 🗂️ Estrutura de Pacotes
+```
 src/
 ├── main/
 │ ├── java/
@@ -165,6 +166,7 @@ src/
 │ │ │ ├── Moto.java
 │ │ │ ├── Coletivo.java
 │ │ │ └── Database.java
+```
 
 📌 O projeto está organizado em pacotes que separam a lógica principal da aplicação (`Main.java`) dos modelos de dados (pacote `models`).  
 Essa estrutura facilita a manutenção e a escalabilidade do sistema, permitindo a adição de novos tipos de veículos ou funcionalidades com alterações mínimas no código existente.
