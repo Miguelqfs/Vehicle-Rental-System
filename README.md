@@ -1,45 +1,56 @@
-# Vehicle Rental System
+# 🚗 Vehicle Rental System
 
-## Capa e Identificação
+## 🧾 Capa e Identificação
 
 - **Título do Projeto:** Sistema de Gerenciamento de Aluguel de Veículos  
 - **Integrantes da Equipe:** Luigi Schmitt, Luís Aranha e Miguel Queiroz  
 - **Cadeira:** Programação Orientada a Objetos  
 
-## Introdução
+---
 
-O Vehicle Rental System é uma aplicação Java desenvolvida para gerenciar o cadastro e aluguel de diferentes tipos de veículos. O sistema foi concebido para atender a necessidade de empresas de locação de veículos que precisam manter um controle eficiente de sua frota, incluindo diferentes categorias de veículos, cada um com suas características específicas.
+## 📌 Introdução
+
+O **Vehicle Rental System** é uma aplicação Java desenvolvida para gerenciar o cadastro e aluguel de diferentes tipos de veículos. O sistema foi concebido para atender a necessidade de empresas de locação de veículos que precisam manter um controle eficiente de sua frota, incluindo diferentes categorias de veículos, cada um com suas características específicas.
 
 O problema abordado envolve a gestão de um catálogo diversificado de veículos disponíveis para aluguel, onde cada tipo de veículo possui atributos comuns (como placa e capacidade) e atributos específicos de sua categoria. A solução proposta permite cadastrar, excluir e visualizar os diferentes veículos, mantendo todas as informações organizadas em um banco de dados relacional.
 
-O sistema atende três categorias principais de veículos:
+### 🚘 Categorias de Veículos Atendidas
+
 - **Carros**: com tipos específicos como SUV, Sedan e Hatch  
 - **Motos**: incluindo variantes como Street e Scooter  
 - **Coletivos**: abrangendo Van, Mini Van e Ônibus  
 
-Esta abordagem facilita a expansão futura do sistema para incluir novas categorias ou atributos, mantendo a organização e a integridade dos dados.
+Essa abordagem facilita a expansão futura do sistema para incluir novas categorias ou atributos, mantendo a organização e a integridade dos dados.
 
-## Modelagem do Problema
+---
 
-A solução implementada segue os princípios da Programação Orientada a Objetos, estruturada da seguinte forma:
+## 🧠 Modelagem do Problema
 
-1. **Hierarquia de Classes**:
+A solução implementada segue os princípios da **Programação Orientada a Objetos**, estruturada da seguinte forma:
+
+1. **🔗 Hierarquia de Classes**:
    - Uma classe base abstrata `Veiculo` que define os atributos e comportamentos comuns
    - Subclasses específicas `Carro`, `Moto` e `Coletivo` que herdam da classe base e implementam características específicas
 
-2. **Encapsulamento**: Todas as classes implementam encapsulamento adequado com métodos getters e setters para acesso controlado aos atributos.
+2. **🔐 Encapsulamento**  
+   Todas as classes implementam encapsulamento adequado com métodos getters e setters para acesso controlado aos atributos.
 
-3. **Polimorfismo**: 
-- Polimorfismo estático: através de construtores e métodos sobrecarregados
-- Polimorfismo dinâmico: através da implementação específica do método `salvarNoBanco()` em cada subclasse
+3. **🎭 Polimorfismo**
+   - Polimorfismo estático: através de construtores e métodos sobrecarregados  
+   - Polimorfismo dinâmico: através da implementação específica do método `salvarNoBanco()` em cada subclasse
 
-4. **Interfaces e Classes Abstratas**: A classe base `Veiculo` implementa comportamentos abstratos que são especializados nas subclasses.
+4. **🧩 Interfaces e Classes Abstratas**  
+   A classe base `Veiculo` implementa comportamentos abstratos que são especializados nas subclasses.
 
-5. **Collections**: Uso de estruturas de dados como ArrayList para manipular conjuntos de veículos.
+5. **📦 Collections**  
+   Optamos por não utilizar diretamente as estruturas da API de Collections neste projeto. Em vez disso, adotamos um enfoque mais desafiador ao realizar a manipulação dos veículos por meio de interações com o banco de dados utilizando JDBC. Essa abordagem reforçou o nosso aprendizado sobre persistência de dados e simula com mais fidelidade o funcionamento de sistemas reais em produção.
 
-6. **Tratamento de Exceções**: Implementação de blocos try-catch para tratar erros de entrada de dados e falhas na comunicação com o banco de dados.
+6. **⚠️ Tratamento de Exceções**  
+   Implementação de blocos `try-catch` para tratar erros de entrada de dados feita pelo usuário e falhas na comunicação com o banco de dados.
 
-## Diagrama UML do Sistema de Aluguel de Veículos
+---
+
+## 📊 Diagrama UML do Sistema de Aluguel de Veículos
 
 ```mermaid
 classDiagram
@@ -127,19 +138,23 @@ classDiagram
     Main --> Moto
     Main --> Coletivo
 ```
-## Ferramentas Utilizadas
+---
 
-### Ambiente de Desenvolvimento
-- IDE: [Eclipse/IntelliJ IDEA/NetBeans] (especifique a IDE utilizada)
-- JDK: Java Development Kit 17 ou superior
+## 🛠️ Ferramentas Utilizadas
+
+### 💻 Ambiente de Desenvolvimento
+- IDE: Visual Studio Code
 - Sistema de Gerenciamento de Banco de Dados: PostgreSQL
 
-### Bibliotecas e Frameworks
-- JDBC (Java Database Connectivity) para comunicação com o banco de dados
-- Driver JDBC para PostgreSQL
+### 📚 Bibliotecas e Frameworks Utilizados
 
-### Estrutura de Pacotes
-```
+- 🔌 **JDBC (Java Database Connectivity)** – Utilizado para a comunicação com o banco de dados.
+- 🧩 **Driver JDBC para PostgreSQL** – Necessário para estabelecer a conexão entre a aplicação Java e o banco PostgreSQL.
+- 🧰 **Bibliotecas padrão do Java** – Como `Scanner` para entrada de dados via terminal e tratamento de exceções com `SQLException`.
+
+---
+
+### 🗂️ Estrutura de Pacotes
 src/
 ├── main/
 │ ├── java/
@@ -150,41 +165,62 @@ src/
 │ │ │ ├── Moto.java
 │ │ │ ├── Coletivo.java
 │ │ │ └── Database.java
-```
 
-O projeto está organizado em pacotes que separam a lógica principal da aplicação (Main.java) dos modelos de dados (package models). Esta estruturação facilita a manutenção e a escalabilidade do projeto, permitindo adicionar novos tipos de veículos ou funcionalidades sem grandes alterações no código existente.
+📌 O projeto está organizado em pacotes que separam a lógica principal da aplicação (`Main.java`) dos modelos de dados (pacote `models`).  
+Essa estrutura facilita a manutenção e a escalabilidade do sistema, permitindo a adição de novos tipos de veículos ou funcionalidades com alterações mínimas no código existente.
 
-## Resultados e Considerações Finais
+---
 
-O Sistema de Gerenciamento de Aluguel de Veículos desenvolvido atende aos requisitos iniciais propostos, oferecendo uma interface de terminal intuitiva para o controle da frota de veículos disponíveis para locação. A aplicação permite:
+## ✅ Resultados e Considerações Finais
 
-1. Cadastrar novos veículos com seus atributos específicos
-2. Excluir veículos do sistema por ID
-3. Visualizar todos os veículos cadastrados, organizados por categoria
+O **Sistema de Gerenciamento de Aluguel de Veículos** atende plenamente aos requisitos propostos, oferecendo uma interface de terminal intuitiva para o controle da frota disponível para locação. A aplicação possibilita:
 
-A integração com o banco de dados PostgreSQL garante a persistência das informações e possibilita a expansão futura do sistema para incluir novas funcionalidades como controle de clientes, gestão de contratos de aluguel e histórico de manutenções.
+1. Cadastrar novos veículos com seus atributos específicos  
+2. Excluir veículos do sistema por ID  
+3. Visualizar todos os veículos cadastrados, organizados por categoria  
 
-### Dificuldades Encontradas
+💾 A integração com o banco de dados PostgreSQL garante a persistência das informações e permite a expansão futura do sistema com funcionalidades como:
 
-Durante o desenvolvimento, enfrentamos alguns desafios:
+- Controle de clientes
+- Gestão de contratos de aluguel
+- Histórico de manutenções
 
-1. Implementação da conexão com o banco de dados e o tratamento adequado de exceções
+---
+
+### ⚠️ Dificuldades Encontradas
+
+Durante o desenvolvimento, enfrentamos os seguintes desafios:
+
+1. Implementação da conexão com o banco de dados e tratamento adequado de exceções
 2. Modelagem da hierarquia de classes para evitar duplicação de código
-3. Validação adequada das entradas do usuário para prevenir erros
+3. Validação das entradas do usuário para prevenir erros
 
-### Aprendizagens e Reflexões
+---
 
-O desenvolvimento deste projeto proporcionou um aprofundamento prático dos conceitos de Programação Orientada a Objetos, especialmente no que se refere à aplicação de herança, polimorfismo e encapsulamento. A experiência de trabalhar com persistência de dados utilizando JDBC também foi enriquecedora, demonstrando a importância de um bom design de banco de dados para suportar a estrutura de classes do sistema.
+### 🎓 Aprendizagens e Reflexões
 
-A utilização do paradigma OO mostrou-se especialmente adequada para este problema, uma vez que a natureza hierárquica dos diferentes tipos de veículos se traduz de forma natural em uma estrutura de herança de classes.
+Este projeto proporcionou um aprofundamento prático dos principais conceitos de **Programação Orientada a Objetos**, com ênfase em:
 
-### Sugestões para Melhorias Futuras
+- 🧬 Herança
+- 🧠 Polimorfismo
+- 🔐 Encapsulamento
 
-1. Implementação de uma interface gráfica utilizando JavaFX ou Swing
-2. Adição de funcionalidades de busca e filtragem de veículos
-3. Implementação de um módulo de relatórios para análise da frota
-4. Desenvolvimento de um sistema de autenticação para controle de acesso
+A experiência com **persistência de dados via JDBC** também foi essencial, evidenciando a importância de um design robusto de banco de dados para sustentar a estrutura do sistema.  
 
-### Feedback sobre a Disciplina
+Além disso, a aplicação do paradigma OO demonstrou ser especialmente eficaz para modelar a hierarquia de veículos, tornando o código mais organizado e extensível.
 
-A disciplina de Programação Orientada a Objetos proporcionou uma base sólida para o desenvolvimento deste projeto, oferecendo os conceitos teóricos e práticos necessários para a implementação de um sistema com múltiplas classes e relacionamentos. As discussões em aula sobre boas práticas de programação e design de software foram fundamentais para a estruturação adequada do código.
+---
+
+### 🌟 Sugestões para Melhorias Futuras
+
+1. Implementar uma interface gráfica com JavaFX ou Swing  
+2. Adicionar funcionalidades de busca e filtragem de veículos  
+3. Criar um módulo de relatórios para análise da frota  
+4. Desenvolver um sistema de autenticação para controle de acesso
+
+---
+
+### 👨‍🏫 Feedback sobre a Disciplina
+
+A disciplina de **Programação Orientada a Objetos** forneceu uma base sólida para o desenvolvimento do projeto.  
+Os conceitos discutidos em sala de aula, aliando teoria e prática, foram fundamentais para estruturar o código de forma clara, coesa e alinhada com boas práticas de desenvolvimento de software.
