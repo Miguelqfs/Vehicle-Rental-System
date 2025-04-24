@@ -28,7 +28,7 @@ Essa abordagem facilita a expansão futura do sistema para incluir novas categor
 
 A solução implementada segue os princípios da **Programação Orientada a Objetos**, estruturada da seguinte forma:
 
-1. **🔗 Hierarquia de Classes**:
+1. **🧬 Hierarquia de Classes**:
    - Uma classe base abstrata `Veiculo` que define os atributos e comportamentos comuns
    - Subclasses específicas `Carro`, `Moto` e `Coletivo` que herdam da classe base e implementam características específicas
 
@@ -204,7 +204,7 @@ Durante o desenvolvimento, enfrentamos os seguintes desafios:
 Este projeto proporcionou um aprofundamento prático dos principais conceitos de **Programação Orientada a Objetos**, com ênfase em:
 
 - 🧬 Herança
-- 🧠 Polimorfismo
+- 🎭 Polimorfismo
 - 🔐 Encapsulamento
 
 A experiência com **persistência de dados via JDBC** também foi essencial, evidenciando a importância de um design robusto de banco de dados para sustentar a estrutura do sistema.  
