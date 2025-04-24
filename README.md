@@ -116,17 +116,17 @@ classDiagram
     Main --> Coletivo
 ```
 
-## Encapsulamento e Polimorfismo
+3. **Encapsulamento**: Todas as classes implementam encapsulamento adequado com métodos getters e setters para acesso controlado aos atributos.
 
-1. **Encapsulamento**: Todas as classes implementam encapsulamento adequado com métodos getters e setters para acesso controlado aos atributos.
-
-2. **Polimorfismo**: 
+4. **Polimorfismo**: 
 - Polimorfismo estático: através de construtores e métodos sobrecarregados
 - Polimorfismo dinâmico: através da implementação específica do método `salvarNoBanco()` em cada subclasse
 
-3. **Interfaces e Classes Abstratas**: A classe base `Veiculo` implementa comportamentos abstratos que são especializados nas subclasses.
+5. **Interfaces e Classes Abstratas**: A classe base `Veiculo` implementa comportamentos abstratos que são especializados nas subclasses.
 
-4. **Tratamento de Exceções**: Implementação de blocos try-catch para tratar erros de entrada de dados e falhas na comunicação com o banco de dados.
+6. **Collections**: Uso de estruturas de dados como ArrayList para manipular conjuntos de veículos.
+
+7. **Tratamento de Exceções**: Implementação de blocos try-catch para tratar erros de entrada de dados e falhas na comunicação com o banco de dados.
 
 ## Ferramentas Utilizadas
 
@@ -140,7 +140,7 @@ classDiagram
 - Driver JDBC para PostgreSQL
 
 ### Estrutura de Pacotes
-
+```
 src/
 ├── main/
 │ ├── java/
