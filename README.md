@@ -2,9 +2,9 @@
 
 ## Capa e Identificação
 
-**Título do Projeto:** Sistema de Gerenciamento de Aluguel de Veículos  
-**Integrantes da Equipe:** [Insira os nomes aqui]  
-**Repositório do Código Fonte:** [Insira o link do repositório aqui]  
+- **Título do Projeto:** Sistema de Gerenciamento de Aluguel de Veículos  
+- **Integrantes da Equipe:** Luigi Schmitt, Luís Aranha e Miguel Queiroz
+- **Cadeira:** Programação Orientada a Objetos
 
 ## Introdução
 
