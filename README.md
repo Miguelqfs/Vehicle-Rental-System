@@ -31,7 +31,6 @@ A solução implementada segue os princípios da Programação Orientada a Objet
 
 ## Diagrama UML do Sistema de Aluguel de Veículos
 
-```mermaid
 classDiagram
     class Veiculo {
         <<abstract>>
@@ -116,6 +115,7 @@ classDiagram
     Main --> Carro
     Main --> Moto
     Main --> Coletivo
+
 
 ## Encapsulamento e Polimorfismo
 
