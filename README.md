@@ -148,9 +148,9 @@ classDiagram
 
 ### 📚 Bibliotecas e Frameworks Utilizados
 
-- 🔌 **JDBC (Java Database Connectivity)** – Utilizado para a comunicação com o banco de dados.
-- 🧩 **Driver JDBC para PostgreSQL** – Necessário para estabelecer a conexão entre a aplicação Java e o banco PostgreSQL.
-- 🧰 **Bibliotecas padrão do Java** – Como `Scanner` para entrada de dados via terminal e tratamento de exceções com `SQLException`.
+- **JDBC (Java Database Connectivity)** – Utilizado para a comunicação com o banco de dados.
+- **Driver JDBC para PostgreSQL** – Necessário para estabelecer a conexão entre a aplicação Java e o banco PostgreSQL.
+- **Bibliotecas padrão do Java** – Como `Scanner` para entrada de dados via terminal e tratamento de exceções com `SQLException`.
 
 ---
 
