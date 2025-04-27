@@ -226,3 +226,27 @@ Além disso, a aplicação do paradigma OO demonstrou ser especialmente eficaz p
 
 A disciplina de **Programação Orientada a Objetos** forneceu uma base sólida para o desenvolvimento do projeto.  
 Os conceitos discutidos em sala de aula, aliando teoria e prática, foram fundamentais para estruturar o código de forma clara, coesa e alinhada com boas práticas de desenvolvimento de software.
+
+---
+
+### ❓ Como usar
+
+1. Certifique-se de ter seu banco de dados PostreSQL rodando localmente em "localhost:5432/alugueis".
+
+2. No terminal, navegue até o diretório do projeto e compile as classes do pacote models:
+
+```bash
+javac -cp "lib\postgresql-42.7.4.jar" -d bin src\models\*.java
+```
+
+3. Em seguida, compile o arquivo Main.java:
+
+```bash
+javac -cp "bin;lib\postgresql-42.7.4.jar" -d bin src\Main.java
+```
+
+4. Por fim, para executar o programa:
+
+```bash
+java -cp "bin;lib\postgresql-42.7.4.jar" Main
+```
