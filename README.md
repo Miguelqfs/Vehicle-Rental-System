@@ -229,7 +229,7 @@ Os conceitos discutidos em sala de aula, aliando teoria e prática, foram fundam
 
 ---
 
-### ❓ Como usar
+### ▶️ Como usar
 
 1. Certifique-se de ter seu banco de dados PostreSQL rodando localmente em "localhost:5432/alugueis".
 
